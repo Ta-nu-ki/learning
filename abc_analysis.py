@@ -47,3 +47,4 @@ df['ABC_QNTY'] = abc_analysis(df, "SALES_QNTY")
 df['ABC_RUB'] = abc_analysis(df, "SALES_RUB")
 # итоговый результат
 result = pd.DataFrame(df.to_records())[["YEAR", "STORE_FORMAT", "CATEGORY", "PRODUCT", "ABC_QNTY", "ABC_RUB"]]
+result.sort_values(["YEAR", "STORE_FORMAT", "CATEGORY", "PRODUCT"], inplace=True)
