@@ -12,7 +12,7 @@ def abc_analysis(data, metrics):
         running_share = cum_sum / total_sum
         result = running_share.apply(classify_goods)
     except KeyError:
-        print(f"Поля {metrics} нет в данных!")
+        print(f"There is no {metrics} field in the data!")
         return
     return result
 
@@ -30,8 +30,8 @@ def classify_goods(share, class_a=0.85, class_b=0.1):
 
 
 # Loads data from files.
-data_sales = pd.read_csv(r"C:\Users\User\Downloads\sales.csv", header=0, sep=';')
-data_products = pd.read_csv(r"C:\Users\User\Downloads\products.csv", header=0, sep=';')
+data_sales = pd.read_csv(r"sales.csv", header=0, sep=';')
+data_products = pd.read_csv(r"products.csv", header=0, sep=';')
 # Misprint bypass in the name of the PRODUCT field. 
 df = pd.merge(data_sales, data_products, how="left", left_on='PRODUCT', right_on='PRODUCT ')
 
@@ -48,5 +48,6 @@ df = df.groupby(['YEAR', 'STORE_FORMAT', 'CATEGORY', 'PRODUCT']).sum()
 # Performs ABC-analysis.
 df['ABC_QNTY'] = abc_analysis(df, "SALES_QNTY")
 df['ABC_RUB'] = abc_analysis(df, "SALES_RUB")
+
 result = pd.DataFrame(df.to_records())[["YEAR", "STORE_FORMAT", "CATEGORY", "PRODUCT", "ABC_QNTY", "ABC_RUB"]]
 result.sort_values(["YEAR", "STORE_FORMAT", "CATEGORY", "PRODUCT"], inplace=True)
