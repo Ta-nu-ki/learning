@@ -9,12 +9,12 @@ WITH RECURSIVE flights (src, path, dest, amount) AS
 	UNION ALL
 	SELECT
 		fp.src, 
-		fp.path || flight.src, -- добавляем пересадку
+		fp.path || flight.src, -- adds connection
 		flight.dest, 
-		(fp.amount + flight.price) AS amount -- считаем расходы
+		(fp.amount + flight.price) AS amount -- calculates expenditures
 	FROM flight
 	JOIN flights AS fp 
-	ON flight.src = fp.dest AND flight.src != ANY(fp.path) -- исключаем города, в которых уже были
+	ON flight.src = fp.dest AND flight.src != ANY(fp.path) -- excluding visited cities
 ) 
 SELECT 
 	src, 

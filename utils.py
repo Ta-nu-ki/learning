@@ -3,7 +3,7 @@ from time import time
 
 
 def stopwatch(f):
-    """Measures function execution time"""
+    """ Measures function execution time. """
     @wraps(f)
     def wrap(*args, **kwargs):
         ts = time()
