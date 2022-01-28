@@ -2,7 +2,9 @@ import pandas as pd
 
 
 def abc_analysis(data, metrics):
-    """ Performs ABC-analysis based on the specified metric. The metric must be contained in the data. """
+    """ 
+    Performs ABC-analysis based on the specified metric. The metric must be contained in the data.
+    """
     try:
         data.sort_values(metrics, ascending=False, inplace=True)
         cum_sum = df.groupby(['YEAR', 'STORE_FORMAT', 'CATEGORY'])[metrics].cumsum()
@@ -16,7 +18,9 @@ def abc_analysis(data, metrics):
 
 
 def classify_goods(share, class_a=0.85, class_b=0.1):
-    """ Marks a product with the corresponding class. """
+    """ 
+    Marks a product with the corresponding class.
+    """
     if share <= class_a:
         return 'A'
     elif class_a < share <= (class_a + class_b):
@@ -41,7 +45,7 @@ df.drop(["MONTH", 'PRODUCT ', 'PRICE'], axis=1, inplace=True)
 # Aggregates data.
 df = df.groupby(['YEAR', 'STORE_FORMAT', 'CATEGORY', 'PRODUCT']).sum()
 
-# Performs ABC-analysis
+# Performs ABC-analysis.
 df['ABC_QNTY'] = abc_analysis(df, "SALES_QNTY")
 df['ABC_RUB'] = abc_analysis(df, "SALES_RUB")
 result = pd.DataFrame(df.to_records())[["YEAR", "STORE_FORMAT", "CATEGORY", "PRODUCT", "ABC_QNTY", "ABC_RUB"]]
